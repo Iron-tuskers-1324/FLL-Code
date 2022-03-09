@@ -22,9 +22,10 @@ motorA = Motor(D["A"])
 motorB = Motor(D["B"])
 motorC = Motor(D["C"])
 motorD = Motor(D["D"])
+i = 0
 while True:
     ALL = ev3.buttons.pressed()
-    if Button.CENTER in ALL:
+    if Button.CENTER in ALL or i == 0:
         if not(A):
             A = True
             clear()
@@ -37,7 +38,7 @@ while True:
             Sprint('["B"] --> UP & DOWN')
             Sprint('["C"] --> LEFT & RIGHT')
             time.sleep(0.2)
-    
+    i += 1
     if A:
         if Button.UP in ALL:
             motorA.run(1000)
