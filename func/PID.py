@@ -108,6 +108,7 @@ def left_turn(angle):
         count += 1
 
 def right_turn(angle):
+    angle = angle*-1
     kp = 0.7
     ki = 0
     kd = 0.1
