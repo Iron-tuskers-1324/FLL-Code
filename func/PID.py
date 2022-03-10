@@ -76,7 +76,7 @@ def drive_time(speed,Time, target=0):
         time.sleep(0.01)
         T2 = time.time()
 
-def turn(angle):
+def left_turn(angle):
 
     kp = 0.7
     ki = 0
@@ -99,6 +99,36 @@ def turn(angle):
             while count2 <= output and angle != int(gyro.angle()):
                 left_motor.run(output*5)
                 right_motor.run(output*-5)
+                count2 += 1
+            
+        #robot.stop()
+        left_motor.brake()
+        right_motor.brake()
+        #wait(10)
+        count += 1
+
+def right_turn(angle):
+    kp = 0.7
+    ki = 0
+    kd = 0.1
+    kt = 5
+    p = 0
+    I = 0
+    D = 0
+    gyro.reset_angle(0)
+    count2 = 0
+    error = 0
+    count = 0
+    while count != 2:
+        while angle != int(gyro.angle()):
+            p = angle-gyro.angle()
+            I = I+p
+            D = error-p
+            error = p
+            output = (kp*p+ki*I+kd*D)*kt
+            while count2 <= output and angle != int(gyro.angle()):
+                left_motor.run(output*-5)
+                right_motor.run(output*5)
                 count2 += 1
             
         #robot.stop()

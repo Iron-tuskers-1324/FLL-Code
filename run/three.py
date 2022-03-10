@@ -13,7 +13,7 @@ import func.motor as motor
 
 PID.drive_dis(120, 42)
 PID.follow_line(70, 45)
-PID.turn(15)
+PID.left_turn(15)
 PID.drive_dis(120, 60)
 PID.drive_dis(-80, 18)
 PID.drive_dis(80, 15)
