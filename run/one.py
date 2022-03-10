@@ -10,14 +10,13 @@ import func.PID as PID
 import func.motor as motor
 
 
-motor.time_move("A", 3, -55)
+motor.time_move("A", 3, 55)
 PID.drive_dis(100, 100)
-PID.drive_dis(50, 70,-5)
-PID.drive_time(90, 3)
-PID.drive_dis(-50, 10)
+PID.drive_dis(50, 44,-5)
+PID.drive_time(100, 1.5)
+PID.drive_dis(-60, 5)
 motor.time_move("D", 5, 120)
-PID.drive_dis(-50, 50)
-motor.time_move("D", 5, -120)
-PID.drive_time(7, 180)
+PID.drive_dis(-100, 40)
+PID.drive_time(-100, 2, -15)
 PID.turn(-30)
 

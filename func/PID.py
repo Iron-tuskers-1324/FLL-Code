@@ -16,7 +16,7 @@ robot.settings(straight_speed = 200, straight_acceleration = 100, turn_rate = 10
 gyro = GyroSensor(Port.S2)
 
 
-def drive_dis(speed,Distance,target=0,ki=0.0003):
+def drive_dis(speed,Distance,target=0):
     
     
     speed = -2.5*speed
@@ -24,6 +24,7 @@ def drive_dis(speed,Distance,target=0,ki=0.0003):
     gyro.reset_angle(0)
     robot.reset()
     kp = 5
+    ki = 0.0003
     kd = 1
     kt = 1
     I = 0
@@ -48,7 +49,7 @@ def drive_dis(speed,Distance,target=0,ki=0.0003):
     robot.stop()
 
 
-def drive_time(speed,Time):
+def drive_time(speed,Time, target=0):
     
     
     speed = -2.5*speed
@@ -65,7 +66,7 @@ def drive_time(speed,Time):
     T1 = time.time()
     T2 = time.time()
     while T2 - T1 <= Time:
-        p = 0-gyro.angle()
+        p = target-gyro.angle()
         I = I+p
         D = error-p
         error = p
