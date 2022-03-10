@@ -16,16 +16,14 @@ robot.settings(straight_speed = 200, straight_acceleration = 100, turn_rate = 10
 gyro = GyroSensor(Port.S2)
 
 
-def drive(speed,Distance):
+def drive_dis(speed,Distance,target=0,ki=0.0003):
     
     
     speed = -2.5*speed
     Distance = 30*Distance
     gyro.reset_angle(0)
     robot.reset()
-
     kp = 5
-    ki = 0.0003
     kd = 1
     kt = 1
     I = 0
@@ -35,7 +33,7 @@ def drive(speed,Distance):
     realdistance = abs(int(robot.distance()))
     while Distance >= realdistance:
         ####print(realdistance)
-        p = 0-gyro.angle()
+        p = target-gyro.angle()
         I = I+p
         D = error-p
         error = p
@@ -49,6 +47,33 @@ def drive(speed,Distance):
         time.sleep(0.01)
     robot.stop()
 
+
+def drive_time(speed,Time):
+    
+    
+    speed = -2.5*speed
+    gyro.reset_angle(0)
+
+    kp = 5
+    ki = 0.0003
+    kd = 1
+    kt = 1
+    I = 0
+    output = 0
+    error = 0
+    p = 0
+    T1 = time.time()
+    T2 = time.time()
+    while T2 - T1 <= Time:
+        p = 0-gyro.angle()
+        I = I+p
+        D = error-p
+        error = p
+        output = (kp*p+ki*I+kd*D)*kt
+        left_motor.run(speed+output)
+        right_motor.run(speed-output)
+        time.sleep(0.01)
+        T2 = time.time()
 
 def turn(angle):
 
