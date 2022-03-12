@@ -18,53 +18,46 @@ gyro = GyroSensor(Port.S2)
 
 def drive_dis(speed,Distance,target=0):
     
-    
     speed = -2.5*speed                                  # מכפיל את המהירות לקבלת מהירות עדכנית
     Distance = 30*Distance                              # מכפיל את המרחק לקבלת מרחק אמיתי
     gyro.reset_angle(0)                                 # מאפס ג'ירו
     robot.reset()                                       # מאפס את המרחק של הרובוט
-    kp = 5                                              # מגדיר מקדם P
-    ki = 0.0003                                         # מגדיר מקדם I
-    kd = 1                                              # מגדיר מקדם T
+    kp = 5                                              # P מגדיר מקדם
+    ki = 0.0003                                         # I מגדיר מקדם
+    kd = 1                                              # D מגדיר מקדם
     kt = 1                                              # מגדיר מקדם כללי
+    I = 0                                               # מאפס משתנים
+    output = 0                                          # מאפס משתנים
+    error = 0                                           # מאפס משתנים
+    p = 0                                               # מאפס משתנים
+    realdistance = abs(int(robot.distance()))           # מקבל את המרחק האמיתי של הרובוט
+    while Distance >= realdistance:                     # כל עוד המרחק גדול מהמרחק של הרובוט
+        p = target-gyro.angle()                         # P חישוב
+        I = I+p                                         # I חישוב
+        D = error-p                                     # D חישוב
+        error = p                                       # מגדיר שגיאה
+        output = (kp*p+ki*I+kd*D)*kt                    # מחשב חישוב כללי
+        left_motor.run(speed+output)                    # מניע את המנוע
+        right_motor.run(speed-output)                   # מניע את המנוע
+        realdistance = abs(int(robot.distance()))       # מקבל מחדש את המרחק של הרובוט
+        time.sleep(0.01)                                # מחכה רגע
+    robot.stop()                                        # עוצר
+
+
+def drive_time(speed,Time, target=0):
+
+    speed = -2.5*speed                                  # מכפיל את המהירות לקבלת מהירות עדכנית
+    gyro.reset_angle(0)                                 # מאפס ג'ירו
+    kp = 5                                              # P מגדיר מקדם
+    ki = 0.0003                                         # 
+    kd = 1                                              # 
+    kt = 1                                              # 
     I = 0                                               # 
     output = 0                                          # 
     error = 0                                           # 
     p = 0                                               # 
-    realdistance = abs(int(robot.distance()))
-    while Distance >= realdistance:
-        ####print(realdistance)
-        p = target-gyro.angle()
-        I = I+p
-        D = error-p
-        error = p
-        output = (kp*p+ki*I+kd*D)*kt
-        #robot.drive(speed, output*kt)
-        #Dprint()
-
-        left_motor.run(speed+output)
-        right_motor.run(speed-output)
-        realdistance = abs(int(robot.distance()))
-        time.sleep(0.01)
-    robot.stop()
-
-
-def drive_time(speed,Time, target=0):
-    
-    
-    speed = -2.5*speed
-    gyro.reset_angle(0)
-
-    kp = 5
-    ki = 0.0003
-    kd = 1
-    kt = 1
-    I = 0
-    output = 0
-    error = 0
-    p = 0
-    T1 = time.time()
-    T2 = time.time()
+    T1 = time.time()                                    # 
+    T2 = time.time()                                    # 
     while T2 - T1 <= Time:
         p = target-gyro.angle()
         I = I+p
