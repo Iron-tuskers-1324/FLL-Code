@@ -11,16 +11,16 @@ import time
 import func.PID as PID
 import func.motor as motor
 
-PID.drive_dis(120, 42)
-PID.follow_line(60, 39)
-PID.left_turn(10)
-PID.drive_dis(150, 60)
-PID.drive_dis(-80, 18)
-PID.drive_dis(100, 15)
-motor.time_move("D", 1.3, -60)
-motor.time_move("A", 1, -200)
-PID.drive_dis(-80, 30)
-motor.time_move("D", 1, 100)
-PID.drive_dis(-120, 35)
+PID.drive_dis(120, 42)              # נוסע קדימה כדי להגיע לקו 
+PID.follow_line(60, 39)             # עוקב אחרי הקו עד שהוא מגיע למשימה
+PID.left_turn(10)                   # פונה קצת בשביל שיוכל להתיישר על הקיר
+PID.drive_dis(150, 60)              # מתיישר על הקיר ועושה את המשימה
+PID.drive_dis(-80, 18)              # מתנתק מהעגלה
+PID.drive_dis(100, 15)              # מתיישר על העגלה
+motor.time_move("D", 1.3, -60)      # מוריד את הדלת של המטוס עם הזרוע
+motor.time_move("A", 1, -200)       # מוריד מיישר לחבילה
+PID.drive_dis(-80, 30)              # נוסע חצי דרך חזרה לבסיס
+motor.time_move("D", 1, 100)        # מרים את הזרוע האחורית
+PID.drive_dis(-120, 35)             # מגיע עד לבסיס
 
 

@@ -19,18 +19,18 @@ gyro = GyroSensor(Port.S2)
 def drive_dis(speed,Distance,target=0):
     
     
-    speed = -2.5*speed
-    Distance = 30*Distance
-    gyro.reset_angle(0)
-    robot.reset()
-    kp = 5
-    ki = 0.0003
-    kd = 1
-    kt = 1
-    I = 0
-    output = 0
-    error = 0
-    p = 0
+    speed = -2.5*speed                                  # מכפיל את המהירות לקבלת מהירות עדכנית
+    Distance = 30*Distance                              # מכפיל את המרחק לקבלת מרחק אמיתי
+    gyro.reset_angle(0)                                 # מאפס ג'ירו
+    robot.reset()                                       # מאפס את המרחק של הרובוט
+    kp = 5                                              # מגדיר מקדם P
+    ki = 0.0003                                         # מגדיר מקדם I
+    kd = 1                                              # מגדיר מקדם T
+    kt = 1                                              # מגדיר מקדם כללי
+    I = 0                                               # 
+    output = 0                                          # 
+    error = 0                                           # 
+    p = 0                                               # 
     realdistance = abs(int(robot.distance()))
     while Distance >= realdistance:
         ####print(realdistance)
@@ -76,6 +76,37 @@ def drive_time(speed,Time, target=0):
         time.sleep(0.01)
         T2 = time.time()
 
+def right_turn(angle):
+    angle = -1*angle
+    kp = 0.7
+    ki = 0
+    kd = 0.1
+    kt = 5
+    p = 0
+    I = 0
+    D = 0
+    gyro.reset_angle(0)
+    count2 = 0
+    error = 0
+    count = 0
+    while count != 2:
+        while angle < int(gyro.angle()):
+            p = angle-gyro.angle()
+            I = I+p
+            D = error-p
+            error = p
+            output = (kp*p+ki*I+kd*D)*kt
+            while count2 <= 2 and angle != int(gyro.angle()):
+                left_motor.run(output*2)
+                right_motor.run(output*-2)
+                count2 += 1
+            
+        #robot.stop()
+        left_motor.brake()
+        right_motor.brake()
+        #wait(10)
+        count += 1
+        
 def left_turn(angle):
 
     kp = 0.7
@@ -90,15 +121,15 @@ def left_turn(angle):
     error = 0
     count = 0
     while count != 2:
-        while angle != int(gyro.angle()):
+        while angle > int(gyro.angle()):
             p = angle-gyro.angle()
             I = I+p
             D = error-p
             error = p
             output = (kp*p+ki*I+kd*D)*kt
-            while count2 <= output and angle != int(gyro.angle()):
-                left_motor.run(output*5)
-                right_motor.run(output*-5)
+            while count2 <= 2 and angle != int(gyro.angle()):
+                left_motor.run(output*2)
+                right_motor.run(output*-2)
                 count2 += 1
             
         #robot.stop()
@@ -106,37 +137,7 @@ def left_turn(angle):
         right_motor.brake()
         #wait(10)
         count += 1
-
-def right_turn(angle):
-    angle = angle*-1
-    kp = 0.7
-    ki = 0
-    kd = 0.1
-    kt = 5
-    p = 0
-    I = 0
-    D = 0
-    gyro.reset_angle(0)
-    count2 = 0
-    error = 0
-    count = 0
-    while count != 2:
-        while angle != int(gyro.angle()):
-            p = angle-gyro.angle()
-            I = I+p
-            D = error-p
-            error = p
-            output = (kp*p+ki*I+kd*D)*kt
-            while count2 <= output and angle != int(gyro.angle()):
-                left_motor.run(output*-5)
-                right_motor.run(output*5)
-                count2 += 1
-            
-        #robot.stop()
-        left_motor.brake()
-        right_motor.brake()
-        #wait(10)
-        count += 1
+        
 
 
 

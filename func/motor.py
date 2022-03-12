@@ -52,9 +52,9 @@ def on_line():
         left_motor.run(speed*2)
         right_motor.run(speed*-1.5)
     
-    #while Rsensor.reflection() > =  Black:
-    #    left_motor.run(speed*0.5)
-    #   right_motor.run(speed*-1)
+    while Rsensor.reflection() >=  Black:
+        left_motor.run(speed*0.5)
+        right_motor.run(speed*-1)
     
     for i in range(3):
         C = 0

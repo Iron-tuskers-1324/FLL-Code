@@ -8,8 +8,7 @@ from pybricks.media.ev3dev import SoundFile, ImageFile
 import func.PID as PID
  
 
-PID.right_turn(-40)
-#import run.one
+import run.three
 
  
 

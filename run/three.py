@@ -9,3 +9,14 @@ import time
 import func.PID as PID
 import func.motor as motor
 
+
+PID.drive_dis(100, 5)
+PID.right_turn(50)
+PID.drive_dis(80, 69)
+PID.right_turn(30)
+PID.drive_dis(70, 50)
+PID.drive_time(70, 2)
+PID.left_turn(30)
+PID.drive(70, 20)
+PID.right_turn(30)
+PID.drive_time(70, 2)
