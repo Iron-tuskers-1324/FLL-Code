@@ -49,81 +49,79 @@ def drive_time(speed,Time, target=0):
     speed = -2.5*speed                                  # מכפיל את המהירות לקבלת מהירות עדכנית
     gyro.reset_angle(0)                                 # מאפס ג'ירו
     kp = 5                                              # P מגדיר מקדם
-    ki = 0.0003                                         # 
-    kd = 1                                              # 
-    kt = 1                                              # 
-    I = 0                                               # 
-    output = 0                                          # 
-    error = 0                                           # 
-    p = 0                                               # 
-    T1 = time.time()                                    # 
-    T2 = time.time()                                    # 
-    while T2 - T1 <= Time:
-        p = target-gyro.angle()
-        I = I+p
-        D = error-p
-        error = p
-        output = (kp*p+ki*I+kd*D)*kt
-        left_motor.run(speed+output)
-        right_motor.run(speed-output)
-        time.sleep(0.01)
-        T2 = time.time()
+    ki = 0.0003                                         # I מגדיר מקדם
+    kd = 1                                              # D מגדיר מקדם
+    kt = 1                                              # מגדיר מקדם כללי
+    I = 0                                               # מאפס משתנים
+    output = 0                                          # מאפס משתנים
+    error = 0                                           # מאפס משתנים
+    p = 0                                               # מאפס משתנים
+    T1 = time.time()                                    # מגדיר זמן התחלה
+    T2 = time.time()                                    # מגדיר זמן עדכני
+    while T2 - T1 <= Time:                              # כל עוד מספר השניות קטן מהזמן
+        p = target-gyro.angle()                         # P חישוב
+        I = I+p                                         # I חישוב
+        D = error-p                                     # D חישוב
+        error = p                                       # מגדיר שגיאה
+        output = (kp*p+ki*I+kd*D)*kt                    # מחשב חישוב כללי
+        left_motor.run(speed+output)                    # מניע את המנוע
+        right_motor.run(speed-output)                   # מניע את המנוע
+        time.sleep(0.01)                                # מחכה רגע
+        T2 = time.time()                                # מגדיר זמן עדכני עדכני
 
 def right_turn(angle):
-    angle = -1*angle
-    kp = 0.7
-    ki = 0
-    kd = 0.1
-    kt = 5
-    p = 0
-    I = 0
-    D = 0
-    gyro.reset_angle(0)
-    count2 = 0
-    error = 0
-    count = 0
-    while count != 2:
-        while angle < int(gyro.angle()):
-            p = angle-gyro.angle()
-            I = I+p
-            D = error-p
-            error = p
-            output = (kp*p+ki*I+kd*D)*kt
-            while count2 <= 2 and angle != int(gyro.angle()):
-                left_motor.run(output*2)
-                right_motor.run(output*-2)
-                count2 += 1
-            
-        #robot.stop()
-        left_motor.brake()
-        right_motor.brake()
-        #wait(10)
-        count += 1
+    
+    angle = -1*angle                                    # 
+    kp = 0.7                                            # 
+    ki = 0                                              # 
+    kd = 0.1                                            # 
+    kt = 5                                              # 
+    p = 0                                               # 
+    I = 0                                               # 
+    D = 0                                               # 
+    gyro.reset_angle(0)                                 # 
+    count2 = 0                                          # 
+    error = 0                                           # 
+    count = 0                                           # 
+    while count != 2:                                   # 
+        while angle < int(gyro.angle()):                # 
+            p = angle-gyro.angle()                      # 
+            I = I+p                                     # 
+            D = error-p                                 # 
+            error = p                                   # 
+            output = (kp*p+ki*I+kd*D)*kt                # 
+            while count2<=2 and angle!=gyro.angle():    # 
+                left_motor.run(output*2)                # 
+                right_motor.run(output*-2)              # 
+                count2 += 1                             # 
+        left_motor.brake()                              # 
+        right_motor.brake()                             # 
+        count += 1                                      # 
         
 def left_turn(angle):
 
-    kp = 0.7
-    ki = 0
-    kd = 0.1
-    kt = 5
-    p = 0
-    I = 0
-    D = 0
-    gyro.reset_angle(0)
-    count2 = 0
-    error = 0
-    count = 0
-    while count != 2:
-        while angle > int(gyro.angle()):
-            p = angle-gyro.angle()
-            I = I+p
-            D = error-p
-            error = p
-            output = (kp*p+ki*I+kd*D)*kt
-            while count2 <= 2 and angle != int(gyro.angle()):
-                left_motor.run(output*2)
-                right_motor.run(output*-2)
-                count2 += 1
+    kp = 0.7                                            #
+    ki = 0                                              #
+    kd = 0.1                                            #
+    kt = 5                                              #
+    p = 0                                               #
+    I = 0                                               #
+    D = 0                                               #
+    gyro.reset_angle(0)                                 #
+    count2 = 0                                          #
+    error = 0                                           #
+    count = 0                                           #
+    while count != 2:                                   #
+        while angle > int(gyro.angle()):                #
+            p = angle-gyro.angle()                      #
+            I = I+p                                     #
+            D = error-p                                 #
+            error = p                                   #
+            output = (kp*p+ki*I+kd*D)*kt                #
+            while count2<=2 and angle != gyro.angle():  #
+                left_motor.run(output*2)                #
+                right_motor.run(output*-2)              #
+                count2 += 1                             #
             
         #robot.stop()
         left_motor.brake()
@@ -135,51 +133,48 @@ def left_turn(angle):
 
 
 def follow_line(speed, Distance, sensor = "right"):
-    robot.reset()
-    s = sensor.lower()
-    # This program requires LEGO EV3 MicroPython v2.0 or higher.
-    # Click "Open user guide" on the EV3 extension tab for more information.
-    if s == "right":
-        sensor = ColorSensor(Port.S4)
-    elif s == "left":
-        sensor = ColorSensor(Port.S1)
-    else:
-        print("sensor invalid")
-        quit()
+    robot.reset()                                       # מאפס מרחק רובוט
+    s = sensor.lower()                                  # הגדרת חיישן אור
+    if s == "right":                                    # הגדרת חיישן אור
+        sensor = ColorSensor(Port.S4)                   # ...
+    elif s == "left":                                   # ...
+        sensor = ColorSensor(Port.S1)                   # ...
+    else:                                               # ...
+        print("sensor invalid")                         # ...
+        quit()                                          # הגדרת חיישן אור
+    Distance = Distance*26                              # הכפלת מרחק לקבל מרחק אמיתי
+    B = 5                                               # הגדרת צבע שחור
+    W = 55                                              # הגדרת צבע לבן
+    T = 30                                              # הגדרת צבע אפור
 
-    Distance = Distance*26
-    B = 5
-    W = 55
-    T = 30
+    DRIVE_SPEED = -2*speed                              # הצבת המהירות כפול 2
 
-    DRIVE_SPEED = -2*speed
+    P = 0                                               # איפוס שגיאה
+    I = 0                                               # איפוס אינטגרל
+    D = 0                                               # איפוס נגזרת
+ 
+    error = 0                                           # איפוס משתנים
 
-    P = 0
-    I = 0
-    D = 0
-
-    error = 0
-
-    kp = 0.56
-    ki = 0.9
-    kd = 1
-    Bget = 30 
+    kp = 0.56                                           # מקדם השגיאה
+    ki = 0.9                                            # מקדם אינטדקל
+    kd = 1                                              # הצבת מקדם נגזרת
+    Bget = 30                                           # הצבת Bget
     realdistance = abs(int(robot.distance()))
-    while Distance >= realdistance:
+    while Distance >= realdistance:                     # לולאת השגיאה
         # Calculate the deviation from the threshold.
         Rget = sensor.reflection()
-        P = (Rget-T)*kp
-        I = (P+I)*ki
-        D = (P-error)*kd
-        error = P
-        correction = P+I+D
+        P = (Rget-T)*kp                                 # חישוב השגיאה לפי בהירות
+        I = (P+I)*ki                                    # חישוב האינטגרל
+        D = (P-error)*kd                                # חישוב נגזרת
+        error = P                                       # הצבת השגיאה לשגיאה קודמת
+        correction = P+I+D #סכום השגיאה
         #robot.drive(DRIVE_SPEED, -1*correction)
-        left_motor.run(DRIVE_SPEED-correction)
-        right_motor.run(DRIVE_SPEED+correction)
-        realdistance = abs(int(robot.distance()))
-    time.sleep(1)
-    left_motor.reset_angle(0)
-    right_motor.reset_angle(0)
+        left_motor.run(DRIVE_SPEED-correction) # הנעת מנוע שמאלי במתיקון השגיאה
+        right_motor.run(DRIVE_SPEED+correction) # הנעת מנוע ימיני בתיקון השגיאה
+        realdistance = abs(int(robot.distance())) # הצבה בערך מוחלט
+    time.sleep(1) # הרובוט מחכה שניה
+    left_motor.reset_angle(0) # איפוס מנוע שמאלי
+    right_motor.reset_angle(0) # איפוס מנוע ימיני
 
 
 
