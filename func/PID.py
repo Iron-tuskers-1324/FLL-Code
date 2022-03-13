@@ -71,36 +71,36 @@ def drive_time(speed,Time, target=0):
 
 def right_turn(angle):
     
-    angle = -1*angle                                    # 
-    kp = 0.7                                            # 
-    ki = 0                                              # 
-    kd = 0.1                                            # 
-    kt = 5                                              # 
-    p = 0                                               # 
-    I = 0                                               # 
-    D = 0                                               # 
-    gyro.reset_angle(0)                                 # 
-    count2 = 0                                          # 
-    error = 0                                           # 
-    count = 0                                           # 
-    while count != 2:                                   # 
-        while angle < int(gyro.angle()):                # 
-            p = angle-gyro.angle()                      # 
-            I = I+p                                     # 
-            D = error-p                                 # 
-            error = p                                   # 
-            output = (kp*p+ki*I+kd*D)*kt                # 
-            while count2<=2 and angle!=gyro.angle():    # 
-                left_motor.run(output*2)                # 
-                right_motor.run(output*-2)              # 
-                count2 += 1                             # 
-        left_motor.brake()                              # 
-        right_motor.brake()                             # 
-        count += 1                                      # 
+    angle = -1*angle                                    # להפוך את המעלות לצד שני
+    kp = 0.5                                            # P מגדיר מקדם
+    ki = 0                                              # I מגדיר מקדם
+    kd = 0.1                                            # D מגדיר מקדם
+    kt = 5                                              # מגדיר מקדם כללי
+    p = 0                                               # מאפס משתנים
+    I = 0                                               # מאפס משתנים
+    D = 0                                               # מאפס משתנים
+    gyro.reset_angle(0)                                 # איפוס ג'ירו
+    count2 = 0                                          # מאפס משתנים
+    error = 0                                           # מאפס משתנים
+    count = 0                                           # מאפס משתנים
+    while count != 10:                                  # לחזור פעמיים
+        while angle < int(gyro.angle()):                # כל עוד הזווית קטנה מהזווית של הרובוט
+            p = angle-gyro.angle()                      # P חישוב
+            I = I+p                                     # I חישוב
+            D = error-p                                 # D חישוב
+            error = p                                   # מגדיר שגיאה
+            output = (kp*p+ki*I+kd*D)*kt                # מחשב חישוב כללי
+            while count2<=2 and angle!=gyro.angle():    # כל עוד הזווית לא שווה לזווית של הרובוט
+                left_motor.run(output*2)                # מניע את המנוע
+                right_motor.run(output*-2)              # מניע את המנוע
+                count2 += 1                             # מוסיף 1 למשתנה
+        left_motor.brake()                              # הרובוט עוצר
+        right_motor.brake()                             # הרובוט עוצר
+        count += 1                                      # מוסיף 1 למשתנה
         
 def left_turn(angle):
 
-    kp = 0.7                                            #
+    kp = 0.5                                            #
     ki = 0                                              #
     kd = 0.1                                            #
     kt = 5                                              #
@@ -111,7 +111,7 @@ def left_turn(angle):
     count2 = 0                                          #
     error = 0                                           #
     count = 0                                           #
-    while count != 2:                                   #
+    while count != 10:                                  #
         while angle > int(gyro.angle()):                #
             p = angle-gyro.angle()                      #
             I = I+p                                     #
