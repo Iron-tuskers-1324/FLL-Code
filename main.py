@@ -37,18 +37,21 @@ while True:
         clear()
         Sprint("RUN-1 completed!")
         A = False
+        time.sleep(0.2)
     
     elif Button.RIGHT in ALL:
         import run.two
         clear()
         Sprint("RUN-2 completed!")
         A = False
+        time.sleep(0.2)
 
-    elif Button.RIGHT in ALL:
+    elif Button.LEFT in ALL:
         import run.three
         clear()
         Sprint("RUN-3 completed!")
         A = False
+        time.sleep(0.2)
 
     if Button.CENTER in ALL:
         A = True
