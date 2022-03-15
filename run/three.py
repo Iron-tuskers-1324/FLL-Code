@@ -12,16 +12,19 @@ import func.motor as motor
 
 PID.drive_dis(70, 10)                   # מתרחק מהקיר בשביל סיבוב
 PID.right_turn(54)                      # מסתובב ימינה
-PID.drive_dis(70, 60)                   # נוסע לעבר המשימה
-PID.right_turn(25)                      # מסתובב לעבר המשאית
+PID.drive_dis(70, 77)                   # נוסע לעבר המשימה
+PID.right_turn(28)                      # מסתובב לעבר המשאית
 PID.drive_time(57, 5)                   # נוסע עד שיחרור המשאית
-PID.drive_dis(60, 15)                   # ממשיך לעבר הרכבת 
-PID.left_turn(15)                       # פונה שמאלה בשביך לדייק את הרכבת
-PID.drive_dis(70, 20)                   # מתקרב עוד לרכבת
-PID.drive_dis(50,10)                    # מבצע את הרכבת
+PID.drive_dis(60, 25)                   # ממשיך לעבר הרכבת 
+PID.left_turn(35)                       # פונה שמאלה בשביך לדייק את הרכבת
+PID.drive_dis(-50, 7)
+motor.time_move("D", 2, -70)            # עוזב את החבילות בעיגול
+PID.drive_dis(70, 30)                   # מתקרב עוד לרכבת
+motor.time_move("A", 2, -70)
+PID.right_turn(40)
+PID.drive_time(90,2)                    # מבצע את הרכבת
 PID.left_turn(35)                       # פונה עם הגל לעיגול
 PID.drive_dis(-60, 20)                  # נוסע לעברו אחורה
-motor.time_move("D", 2, -70)            # עוזב את החבילות בעיגול
 PID.drive_dis(90, 6)                    # ממשיך למסוק
 PID.left_turn(40)                       # 
 PID.drive_time(100,2)
